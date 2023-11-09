@@ -1,5 +1,6 @@
 import pygame
-
+from pacman import Pacman
+global score
 
 class Ghost:
   #Initialisation d'un ghost (Clyde / Blinky / Pinky / Inky)

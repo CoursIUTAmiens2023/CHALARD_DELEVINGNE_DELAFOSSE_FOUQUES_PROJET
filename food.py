@@ -1,18 +1,22 @@
 import pygame
 from score import Score
+global score
 
 class Food:
+
   def __init__(self, x, y, s):
     self.x = x
     self.y = y
+    self.score = s
     self.actif = True
-    self.score = Score(s)
-    self.image = pygame.image.load("food.png")
+    #self.image = pygame.image.load("food.png")
 
   def eat(self, type):
-    if type == "little":
+    if type == 2:
+      #score += 15
       self.score.score_add(15)
       self.actif = False
-    elif type == "big":
+    elif type == 3:
+      #score += 50
       self.score.score_add(50)
       self.actif = False
