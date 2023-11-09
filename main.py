@@ -1,81 +1,66 @@
 import pygame
 import sys
-from ghost import Ghost
-from pacman import Pacman
+
 from game import Game
-from score import Score
-from map import Map
+from collision import Collision
 
 # Initialisation de Pygame
 pygame.init()
 
-# Paramètres de la fenêtre
-largeur, hauteur = 800, 600
-fenetre = pygame.display.set_mode((largeur, hauteur))
-pygame.display.set_caption("Rond Jaune qui Bouge")
+# Définir les couleurs
+noir = (0, 0, 0)
+blanc = (255, 255, 255)
 
-# Couleurs
-jaune = (255, 255, 0)
+# Définir la taille de la fenêtre
+largeur_map, hauteur_map = 448, 496
+fenetre = pygame.display.set_mode((largeur_map, hauteur_map))
+pygame.display.set_caption("Pac-Man Game")
 
-# Position initiale du rond
-x, y = largeur // 2, hauteur // 2
 
-# Vitesse du rond
-vitesse = 5
+# Charger l'image de fond
+bg = pygame.image.load("Sprite/Colision-Map.png").convert()
 
-lastKeyPressed = None
+# Position initiale
+direction = ''
+game = Collision()
 
-# Création de l'objet Pacman
-map = Map()
-score = Score(0)
-pacman = Pacman(1, 1, score)
-
-# Boucle principale
+# Boucle principale du jeu
 while True:
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      pygame.quit()
-      sys.exit()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-  # Mouvement du rond avec les touches de direction
-  touches = pygame.key.get_pressed()
-  x += (touches[pygame.K_RIGHT] - touches[pygame.K_LEFT]) * vitesse
-  y += (touches[pygame.K_DOWN] - touches[pygame.K_UP]) * vitesse
+    # Gestion des déplacements
+    touches = pygame.key.get_pressed()
 
-  # Déplacement du rond en fonction de la touche pressée
-  if touches[pygame.K_LEFT]:
-    lastKeyPressed = "left"
-  elif touches[pygame.K_RIGHT]:
-    lastKeyPressed = "right"
-  if touches[pygame.K_UP]:
-    lastKeyPressed = "up"
-  if touches[pygame.K_DOWN]:
-    lastKeyPressed = "down"
+    # Sauvegarde des anciennes coordonnées du joueur
+    ancien_x, ancien_y = game.player.rect.x, game.player.rect.y
 
-  #Utilisation de move de la classe Pacman selon la dernière touche pressée
-  
-  positionPacmanX, postionPacmanY = pacman.get_position()
-  if lastKeyPressed == "left":
-    pacman.move(positionPacmanX - 1, postionPacmanY, map)
-  elif lastKeyPressed == "right":
-    pacman.move(positionPacmanX + 1, postionPacmanY, map)
-  elif lastKeyPressed == "up":
-    pacman.move(positionPacmanX, postionPacmanY - 1, map)
-  elif lastKeyPressed == "down":
-    pacman.move(positionPacmanX, postionPacmanY + 1, map)
-  
+    if touches[pygame.K_LEFT]:
+        game.player.move('left')
+        direction = 'left'
+    elif touches[pygame.K_RIGHT]:
+        game.player.move('right')
+        direction = 'right'
+    elif touches[pygame.K_UP]:
+        game.player.move('up')
+        direction = 'up'
+    elif touches[pygame.K_DOWN]:
+        game.player.move('down')
+        direction = 'down'
 
-  # Rafraîchissement de l'écran
-  fenetre.fill((0, 0, 0))  # Fond noir
+    # Vérifie la collision avec les murs à gauche
+    if game.check_collision(game.player, game.walls):
+        game.player.rect.x = ancien_x
 
-  # Dessin de l'objet Pacman
-  positionPacmanX, postionPacmanY = pacman.get_position()
-  pacman.draw(fenetre, positionPacmanX, postionPacmanY)
+    # Appelle la fonction pour animer Pac-Man avec la direction
+    game.player.update()
 
-  # Dessin de l'objet Score
-  score.display(fenetre, 50,50)
+    # Rafraîchir l'écran
+    fenetre.blit(bg, (0, 0))  # Blitter l'image de fond
+    fenetre.blit(game.player.image, (game.player.rect.x, game.player.rect.y))
+    pygame.display.flip()
 
-  pygame.display.flip()
-
-  # Limite de vitesse de la boucle
-  pygame.time.Clock().tick(30)
+    # Limiter la vitesse du jeu
+    pygame.time.Clock().tick(30)

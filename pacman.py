@@ -3,53 +3,61 @@ from food import Food
 from map import Map
 from score import Score
 
+# Définir les couleurs
+noir = (0, 0, 0)
+blanc = (255, 255, 255)
 
-class Pacman:
+class Pacman(pygame.sprite.Sprite):
 
-  def __init__(self, x, y, s):
-    self.x = x
-    self.y = y
-    self.dead = False
-    self.win = False
-    self.score = s
-    #self.image = pygame.image.load("pacman.png")
-    # Autres attributs et méthodes pour le mouvement, la direction, etc.
+  def __init__(self, x, y, sprite_sheet):
+    super().__init__()
+    self.velocity = 5
+    self.sprite_sheet = sprite_sheet
+    self.frame_width = 24
+    self.frame_height = 24
+    self.total_frames = 2
+    self.current_frame = 0
+    self.animation_speed = 0.2
+    self.last_update = pygame.time.get_ticks()
+    self.direction = 'right'
 
-  def move(self, dx, dy, position):
-    #vérification des murs
-    plateau = position.recup_map()
+    # Appliquer la couleur noire comme couleur transparente
+    self.sprite_sheet.set_colorkey(noir)
 
-    #0=Case Hors jeu ou barrière, 1=Case vide, 2=Case PacGomme, 3=Case GrosPacGomme 4=Cage des fantômes 5=TP 6=Fruit
+    self.image = self.animer_pacman()
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
 
-    #Vérification si la case est hors jeu ou une barrière
-    if plateau[dx][dy] == 0:
-      return 1
-    if plateau[dx][dy] != 0:
-      #Vérification si une pacgomme se trouve sur la prochaine case
-      pacgomme = Food(dx, dy, self.score)
-      pacgomme.eat(plateau[dx][dy])
-      #changé case en vide
-      position.pacGommeMange(dx,dy)
-      #puis on incrémente la position de pacman
-      self.x = dx
-      self.y = dy
+  def move(self, direction):
+    self.direction = direction
+    if direction == 'left':
+      self.rect.x -= self.velocity
+    elif direction == 'right':
+      self.rect.x += self.velocity
+    elif direction == 'up':
+      self.rect.y -= self.velocity
+    elif direction == 'down':
+      self.rect.y += self.velocity
 
-    return 0
+  def animer_pacman(self):
+    now = pygame.time.get_ticks()
+    if now - self.last_update > self.animation_speed * 1000:
+      self.last_update = now
+      self.current_frame = (self.current_frame + 1) % self.total_frames
 
-  def draw(self, screen, x, y):
-    # Couleurs
-    jaune = (255, 255, 0)
-    pygame.draw.circle(screen, jaune, (int(x), int(y)), 20)
-    #screen.blit(self.image, (self.x, self.y))
+    frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA)
+    frame.blit(self.sprite_sheet, (0, 0), (self.current_frame * self.frame_width, 0, self.frame_width, self.frame_height))
 
-  # Return si pacman est mort
-  def is_dead(self):
-    return self.dead
+    # Effectue la rotation en fonction de la direction
+    if self.direction == 'left':
+      frame = pygame.transform.rotate(frame, 180)
+    elif self.direction == 'up':
+      frame = pygame.transform.rotate(frame, 90)
+    elif self.direction == 'down':
+      frame = pygame.transform.rotate(frame, -90)
 
-  # Return si pacman a gagné
-  def is_win(self):
-    return self.win
+    return frame
 
-  # return position de pacman
-  def get_position(self):
-    return self.x, self.y
+  def update(self):
+    self.image = self.animer_pacman()
