@@ -1,6 +1,6 @@
 import pygame
 from pacman import Pacman
-global score
+
 
 class Game:
 
@@ -12,31 +12,28 @@ class Game:
     self.clock = pygame.time.Clock()
 
   def run(self):
-    # Initialisation du score
-    global score = 0
-    # Initialisation des sprites
-    pacman = Pacman(10, 5)
-    pacman.draw(self.screen)
     # Boucle principale du jeu
+    running = True
+    pacman = Pacman(400, 300)
+    while running:
+        self.handle_events()
+        self.update()
+        self.draw()
 
-    while True:
-      # Vérification des événements
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          pygame.quit()
-          quit()
-      # Modification
+        # Vérifie si le jeu est fini et met running à False si besoin
+        if pacman.is_dead():
+          print("Game over")
+          running = False
+        elif pacman.is_win():
+          print("You win!")
+          running = False
 
-      # Dessin
-
-      # Vérification des collisions
-
-      # Actualisation de l'affichage
-
-      # Temps d'attente
-
-      self.clock.tick(60)
-      pygame.display.flip()
+        #Met à jour l'affichage à 60 fps
+        pygame.display.flip()
+        self.clock.tick(60)
+    
+        # Example: if pacman eats all the food, running = False
+    return 0
 
   def handle_events(self):
     # Gérer les événements tels que les touches du clavier
