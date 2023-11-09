@@ -28,7 +28,7 @@ lastKeyPressed = None
 # Création de l'objet Pacman
 map = Map()
 score = Score(0)
-pacman = Pacman(0, 0, score)
+pacman = Pacman(1, 1, score)
 
 # Boucle principale
 while True:

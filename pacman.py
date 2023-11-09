@@ -18,6 +18,12 @@ class Pacman:
   def move(self, dx, dy, position):
     #vérification des murs
     plateau = position.recup_map()
+
+    #0=Case Hors jeu ou barrière, 1=Case vide, 2=Case PacGomme, 3=Case GrosPacGomme 4=Cage des fantômes 5=TP 6=Fruit
+
+    #Vérification si la case est hors jeu ou une barrière
+    if plateau[dx][dy] == 0:
+      return 1
     if plateau[dx][dy] != 0:
       #Vérification si une pacgomme se trouve sur la prochaine case
       pacgomme = Food(dx, dy, self.score)
