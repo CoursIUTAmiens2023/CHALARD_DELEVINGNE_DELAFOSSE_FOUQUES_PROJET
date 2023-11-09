@@ -1,6 +1,7 @@
 import pygame
 from score import Score
 global score
+global score
 
 class Food:
 
