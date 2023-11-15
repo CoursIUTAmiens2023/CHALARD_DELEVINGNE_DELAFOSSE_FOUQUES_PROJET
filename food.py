@@ -1,20 +1,12 @@
 import pygame
 from score import Score
 
-class Food:
-
-  def __init__(self, x, y, s):
-    self.x = x
-    self.y = y
-    self.score = s
-    self.actif = True
-    #self.image = pygame.image.load("food.png")
-
-  def eat(self, type):
-    if type == 2:
-      self.score.score_add(15)
-      self.actif = False
-    elif type == 3:
-      self.score.score_add(50)
-      self.actif = False
-      #Effectuer le pouvoir de la grosse pacgomme
+class PacGomme(pygame.sprite.Sprite):
+    def __init__(self, x, y, image, points, donne_pouvoir):
+        super().__init__()
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.points = points
+        self.donne_pouvoir = donne_pouvoir

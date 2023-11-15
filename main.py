@@ -1,8 +1,10 @@
 import pygame
 import sys
-
+import random
+from collision import Building
+from pacman import Pacman
+from food import PacGomme
 from game import Game
-from collision import Collision
 
 # Initialisation de Pygame
 pygame.init()
@@ -22,7 +24,8 @@ bg = pygame.image.load("Sprite/Colision-Map.png").convert()
 
 # Position initiale
 direction = ''
-game = Collision()
+game = Game()
+
 
 # Boucle principale du jeu
 while True:
@@ -50,16 +53,33 @@ while True:
         game.player.move('down')
         direction = 'down'
 
-    # Vérifie la collision avec les murs à gauche
-    if game.check_collision(game.player, game.walls):
+    # Vérifie la collision avec les murs en fonction de la direction
+    if direction == 'left' and game.check_collision(game.player, game.wall_left):
         game.player.rect.x = ancien_x
+    elif direction == 'right' and game.check_collision(game.player, game.wall_right):
+        game.player.rect.x = ancien_x
+    elif direction == 'up' and game.check_collision(game.player, game.wall_up):
+        game.player.rect.y = ancien_y
+    elif direction == 'down' and game.check_collision(game.player, game.wall_down):
+        game.player.rect.y = ancien_y
 
     # Appelle la fonction pour animer Pac-Man avec la direction
     game.player.update()
 
+    # Appelle la fonction pour téléporter Pac-Man en fonction de sa localisation
+    game.player.teleportation()
+
     # Rafraîchir l'écran
     fenetre.blit(bg, (0, 0))  # Blitter l'image de fond
     fenetre.blit(game.player.image, (game.player.rect.x, game.player.rect.y))
+    
+     # Fonction de poursuite des fantômes
+    for fantome in game.fantomes:
+        fantome.update(game.player, game)
+        
+    # Afficher les pac-gommes
+    game.pac_gommes.draw(fenetre)
+    game.fantomes.draw(fenetre)
     pygame.display.flip()
 
     # Limiter la vitesse du jeu

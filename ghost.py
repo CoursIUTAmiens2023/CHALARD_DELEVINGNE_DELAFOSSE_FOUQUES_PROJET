@@ -1,64 +1,82 @@
 import pygame
-from pacman import Pacman
 global score
 
-class Ghost:
-  #Initialisation d'un ghost (Clyde / Blinky / Pinky / Inky)
-  def __init__(self, x, y, speed, dead=False):
-    self.x = x
-    self.y = y
-    self.speed = speed
-    self.dead = dead
-    self.image = pygame.image.load("ghost.png")
-    # Autres attributs et méthodes pour le mouvement, la direction, etc.
+class Fantome(pygame.sprite.Sprite):
+    def __init__(self, x, y, image):
+        super().__init__()
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.direction = 'left'
+        self.changing_direction = False  # Nouvelle variable d'état
 
-  #Mouvement du ghost
-  def move(self, dx, dy):
-    self.x += dx * self.speed
-    self.y += dy * self.speed
+    def poursuite(self, player, Game):
+        target_x = player.rect.x
+        target_y = player.rect.y
 
-  #Affichage du ghost
-  def draw(self, screen):
-    screen.blit(self.image, (self.x, self.y))
+        possible_directions = []
 
-  #Mort du ghost
-  def die(self):
-    self.dead = True
-    self.image = pygame.image.load("ghost_dead.png")
+        # Vérifier les directions possibles en fonction de la cible
+        if target_x < self.rect.x and not Game.check_collision(self, Game.wall_left):
+            possible_directions.append('left')
+        elif target_x > self.rect.x and not Game.check_collision(self, Game.wall_right):
+            possible_directions.append('right')
 
-  #Résurrection du ghost
-  def revive(self):
-    self.dead = False
-    self.image = pygame.image.load("ghost.png")
+        if target_y < self.rect.y and not Game.check_collision(self, Game.wall_up):
+            possible_directions.append('up')
+        elif target_y > self.rect.y and not Game.check_collision(self, Game.wall_down):
+            possible_directions.append('down')
 
-  #Déplacement du ghost vers pacman en faisant attention aux murs
-  def move_to_pacman(self, pacman, walls):
-    #regarde selon l'axe x ou y où le fantôme est positionné par rapport à pacman
-    if self.x < pacman.x:
-      if not self.is_wall(self.x + self.speed, self.y, walls):
-        self.move(self.speed, 0)
-    elif self.x > pacman.x:
-      if not self.is_wall(self.x - self.speed, self.y, walls):
-        self.move(-self.speed, 0)
-    elif self.y < pacman.y:
-      if not self.is_wall(self.x, self.y + self.speed, walls):
-        self.move(0, self.speed)
-    elif self.y > pacman.y:
-      if not self.is_wall(self.x, self.y - self.speed, walls):
-        self.move(0, -self.speed)
-    return 0
+        # Si le fantôme est actuellement bloqué dans sa direction, il choisit une nouvelle direction
+        if self.direction not in possible_directions or self.changing_direction:
+            # Choisir une nouvelle direction en fonction de la position du joueur
+            if player.rect.y < self.rect.y and not Game.check_collision(self, Game.wall_up):
+                self.direction = 'up'
+            elif player.rect.y > self.rect.y and not Game.check_collision(self, Game.wall_down):
+                self.direction = 'down'
+            elif player.rect.x < self.rect.x and not Game.check_collision(self, Game.wall_left):
+                self.direction = 'left'
+            elif player.rect.x > self.rect.x and not Game.check_collision(self, Game.wall_right):
+                self.direction = 'right'
 
-  #Vérifie si le ghost est sur un mur
-  def is_wall(self, x, y, walls):
-    for wall in walls:
-      if wall.x == x and wall.y == y:
-        return True
-    return False
+            self.changing_direction = False
 
-  #Vérifie si le ghost est sur pacman
-  def is_on_pacman(self, pacman):
-    return pacman.x == self.x and pacman.y == self.y
+    def update(self, player, Game):
+        # Choix de la fonction de poursuite en fonction du fantôme
+        self.poursuite(player, Game)
 
-  #Vérifie si le ghost est mort
-  def is_dead(self):
-    return self.dead
+        # Gestion des collisions avec les murs en fonction de la direction
+        if not self.changing_direction:
+            if self.direction == 'left' and Game.check_collision(self, Game.wall_left):
+                self.try_change_direction('left', ['up', 'down'])
+            elif self.direction == 'right' and Game.check_collision(self, Game.wall_right):
+                self.try_change_direction('right', ['up', 'down'])
+            elif self.direction == 'up' and Game.check_collision(self, Game.wall_up):
+                self.try_change_direction('up', ['left', 'right'])
+            elif self.direction == 'down' and Game.check_collision(self, Game.wall_down):
+                self.try_change_direction('down', ['left', 'right'])
+
+            # Si le fantôme est toujours bloqué, choisir une nouvelle direction
+            if Game.check_collision(self, Game.wall_left) and Game.check_collision(self, Game.wall_right) and \
+                    Game.check_collision(self, Game.wall_up) and Game.check_collision(self, Game.wall_down):
+                self.changing_direction = True
+
+        # Gestion des collisions avec les murs en fonction de la direction
+        if not self.changing_direction:
+            if self.direction == 'left' and not Game.check_collision(self, Game.wall_left):
+                self.rect.x -= 1
+            elif self.direction == 'right' and not Game.check_collision(self, Game.wall_right):
+                self.rect.x += 1
+            elif self.direction == 'up' and not Game.check_collision(self, Game.wall_up):
+                self.rect.y -= 1
+            elif self.direction == 'down' and not Game.check_collision(self, Game.wall_down):
+                self.rect.y += 1
+
+        # Réinitialiser l'état de changement de direction après avoir traversé un mur
+        self.changing_direction = False
+
+    def try_change_direction(self, new_direction, forbidden_directions):
+        # Choisir une nouvelle direction si le fantôme est actuellement bloqué dans une direction interdite
+        if self.direction in forbidden_directions:
+            self.direction = new_direction
