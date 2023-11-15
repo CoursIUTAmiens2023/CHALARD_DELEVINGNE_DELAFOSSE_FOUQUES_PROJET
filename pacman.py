@@ -27,6 +27,8 @@ class Pacman(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.x_debut = x
+        self.y_debut = y
 
     def move(self, direction):
         self.direction = direction
@@ -65,9 +67,17 @@ class Pacman(pygame.sprite.Sprite):
         if(self.rect.x >= 450):
             self.rect.x = -10
         elif(self.rect.x <= -25):
-            self.rect.x = 435     
+            self.rect.x = 435    
 
-    def getPacGomme(self, pac_gommes):
+    def reaparition(self):
+        self.rect.x = self.x_debut
+        self.rect.y = self.y_debut
+
+    def collidePacGomme(self, pac_gommes):
         pac_gommes_collided = pygame.sprite.spritecollide(self, pac_gommes, True)
         points = points = sum(pac_gomme.get_points() for pac_gomme in pac_gommes_collided)
         return pac_gommes_collided, points
+    
+    def collideGhost(self, fantomes):
+        fantomes_collided = pygame.sprite.spritecollide(self, fantomes, False)
+        return fantomes_collided

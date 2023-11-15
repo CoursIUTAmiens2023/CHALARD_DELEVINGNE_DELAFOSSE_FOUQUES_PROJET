@@ -8,7 +8,7 @@ from score import Score
 class Game:
     def __init__(self):
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(50, 50, pacman_spritesheet)
+        self.player = Pacman(220, 370, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
@@ -26,6 +26,11 @@ class Game:
         self.pac_gommes.add(PacGomme(50, 50, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(200, 200, 'Sprite/Pac-Gomme.png', 50, True))
         self.pac_gommes.add(PacGomme(300, 300, 'Sprite/Point.png', 10, False))
+
+        # Création des super pac-gommes
+        self.super_pac_gommes = pygame.sprite.Group()
+
+        self.super_pouvoir = False
 
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()

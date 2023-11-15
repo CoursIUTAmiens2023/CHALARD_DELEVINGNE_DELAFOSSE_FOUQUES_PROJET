@@ -70,12 +70,36 @@ while True:
     game.player.teleportation()
 
     # Appelle la fonction vérifiant la collision avec les pac-gommes et retourne un booléen et le nombre de points
-    (getPacGomme, points) = game.player.getPacGomme(game.pac_gommes)
+    (getPacGomme, points) = game.player.collidePacGomme(game.pac_gommes)
     if(getPacGomme):
         # Update le score en ajoutant 50 points
         game.score.score_add(points)
         # Réaffiche le score
         game.score.display(fenetre, 10, 10)
+
+
+    # Appelle la fonction vérifiant la collision avec les fantômes et retourne un booléen
+    getFantome = game.player.collideGhost(game.fantomes)
+    # Si collision avec un fantôme
+    if(getFantome):
+        # Si le joueur a un super pouvoir
+        if(game.super_pouvoir):
+            # Supprime le fantôme
+            game.fantomes.remove(getFantome)
+            # Update le score en ajoutant 200 points
+            game.score.score_add(200)
+            # Réaffiche le score
+            game.score.display(fenetre, 10, 10)
+        else:
+            # Update le score en ajoutant 50 points
+            game.score.score_add(50)
+            # Réaffiche le score
+            game.score.display(fenetre, 10, 10)
+            # Réinitialise la position du joueur
+            game.player.reaparition()
+            # Réinitialise la position des fantômes
+            for fantome in game.fantomes:
+                fantome.reaparition()
 
     # Rafraîchir l'écran
     fenetre.blit(bg, (0, 0))  # Blitter l'image de fond
