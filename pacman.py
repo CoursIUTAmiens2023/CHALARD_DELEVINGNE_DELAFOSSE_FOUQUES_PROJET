@@ -10,7 +10,7 @@ blanc = (255, 255, 255)
 class Pacman(pygame.sprite.Sprite):
     def __init__(self, x, y, sprite_sheet):
         super().__init__()
-        self.velocity = 2
+        self.velocity = 5
         self.sprite_sheet = sprite_sheet
         self.frame_width = 24
         self.frame_height = 24
@@ -66,3 +66,8 @@ class Pacman(pygame.sprite.Sprite):
             self.rect.x = -10
         elif(self.rect.x <= -25):
             self.rect.x = 435     
+
+    def getPacGomme(self, pac_gommes):
+        pac_gommes_collided = pygame.sprite.spritecollide(self, pac_gommes, True)
+        points = points = sum(pac_gomme.get_points() for pac_gomme in pac_gommes_collided)
+        return pac_gommes_collided, points

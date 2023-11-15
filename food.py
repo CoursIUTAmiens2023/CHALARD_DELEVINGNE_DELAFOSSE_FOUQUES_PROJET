@@ -10,3 +10,6 @@ class PacGomme(pygame.sprite.Sprite):
         self.rect.y = y
         self.points = points
         self.donne_pouvoir = donne_pouvoir
+
+    def get_points(self):
+        return self.points

@@ -69,6 +69,14 @@ while True:
     # Appelle la fonction pour téléporter Pac-Man en fonction de sa localisation
     game.player.teleportation()
 
+    # Appelle la fonction vérifiant la collision avec les pac-gommes et retourne un booléen et le nombre de points
+    (getPacGomme, points) = game.player.getPacGomme(game.pac_gommes)
+    if(getPacGomme):
+        # Update le score en ajoutant 50 points
+        game.score.score_add(points)
+        # Réaffiche le score
+        game.score.display(fenetre, 10, 10)
+
     # Rafraîchir l'écran
     fenetre.blit(bg, (0, 0))  # Blitter l'image de fond
     fenetre.blit(game.player.image, (game.player.rect.x, game.player.rect.y))
@@ -79,7 +87,9 @@ while True:
         
     # Afficher les pac-gommes
     game.pac_gommes.draw(fenetre)
+    # Afficher les fantômes
     game.fantomes.draw(fenetre)
+    game.score.display(fenetre, 10, 10)
     pygame.display.flip()
 
     # Limiter la vitesse du jeu
