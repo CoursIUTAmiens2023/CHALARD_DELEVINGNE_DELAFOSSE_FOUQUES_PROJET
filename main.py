@@ -76,6 +76,12 @@ while True:
         game.score.score_add(points)
         # Réaffiche le score
         game.score.display(fenetre, 10, 10)
+         # Vérifie si le score atteint 1000 points
+        if game.score.get_score() % 1000 == 0:
+            # Ajoute une vie
+            game.vie.vie_add(1)
+            # Réaffiche le nombre de vies
+            game.vie.display(fenetre, 300, 10)
 
 
     # Appelle la fonction vérifiant la collision avec les fantômes et retourne un booléen
@@ -97,6 +103,8 @@ while True:
             game.score.display(fenetre, 10, 10)
             # Réinitialise la position du joueur
             game.player.reaparition()
+            game.vie.vie_remove(1)
+            game.vie.display(fenetre, 300, 10)
             # Réinitialise la position des fantômes
             for fantome in game.fantomes:
                 fantome.reaparition()
@@ -114,6 +122,7 @@ while True:
     # Afficher les fantômes
     game.fantomes.draw(fenetre)
     game.score.display(fenetre, 10, 10)
+    game.vie.display(fenetre, 300, 10)
     pygame.display.flip()
 
     # Limiter la vitesse du jeu

@@ -4,6 +4,7 @@ from food import PacGomme
 from collision import Building
 from ghost import Fantome
 from score import Score
+from vie import Vie
 
 class Game:
     def __init__(self):
@@ -203,7 +204,7 @@ class Game:
 
         # Création du score
         self.score = Score(0)
-        
+        self.vie = Vie(3)
         
     def check_collision(self, sprite, group):
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
