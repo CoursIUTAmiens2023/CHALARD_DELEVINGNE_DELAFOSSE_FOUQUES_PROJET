@@ -51,7 +51,7 @@ class Pacman(pygame.sprite.Sprite):
         self.image = self.animer_pacman()
         
     def teleportation(self):
-        if(self.rect.x >= 450):
-            self.rect.x = -10
-        elif(self.rect.x <= -25):
-            self.rect.x = 435    
+        if(self.rect.x <= 7 and self.rect.y == 137):
+            self.rect.x = 273
+        elif(self.rect.x >= 273 and self.rect.y == 137):
+            self.rect.x = 7 
