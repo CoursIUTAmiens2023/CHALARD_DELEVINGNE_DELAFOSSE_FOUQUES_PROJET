@@ -135,7 +135,6 @@ class Game:
         self.pac_gommes.add(PacGomme(150, 375, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(175, 375, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(198, 375, 'Sprite/Point.png', 10, False))
-        self.pac_gommes.add(PacGomme(220, 375, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(245, 375, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(270, 375, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(295, 375, 'Sprite/Point.png', 10, False))

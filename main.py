@@ -76,10 +76,15 @@ while True:
                 pygame.draw.rect(fenetre, bleu, (j * taille_case, i * taille_case, taille_case, taille_case))
     
     # Rafraîchir l'écran
+<<<<<<< HEAD
     fenetre.blit(bg, (0, 0)) 
     game.pac_gommes.draw(fenetre)
     game.score.display(fenetre, 10, 10)
     game.vie.display(fenetre, 300, 10)   
+=======
+    fenetre.blit(bg, (0, 0))    
+    game.pac_gommes.draw(fenetre)
+>>>>>>> 662bee86e516bb9743ccb4fc1cdd69a1175b9bd8
     
     pacman_collisions = game.check_collision(game.player, game.pac_gommes)
 
@@ -92,7 +97,7 @@ while True:
      # Fonction de poursuite des fantômes
     for fantome in game.fantomes:
         fantome.update(game.player)
-        
+    print(game.player.rect.x, game.player.rect.y)
     # Dessiner Pac-Man
     fenetre.blit(game.player.image, (game.player.rect.x * taille_case, game.player.rect.y * taille_case))
     fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
