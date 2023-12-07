@@ -43,6 +43,85 @@ class Fantome(pygame.sprite.Sprite):
                 self.direction = 'right'
 
             self.changing_direction = False
+            
+        """from collections import deque
+        from enum import Enum
+        import json
+
+        class Direction(Enum):
+            Haut = (-1, 0)
+            Bas = (1, 0)
+            Gauche = (0, -1)
+            Droite = (0, 1)
+
+        def find_shortest_path(matrix, start_x, start_y, flag_x, flag_y):
+            rows, cols = len(matrix), len(matrix[0])
+            queue = deque()
+            visited = [[False] * cols for _ in range(rows)]
+
+            queue.append(Node(start_x, start_y, None))
+            visited[start_x][start_y] = True
+
+            while queue:
+                current = queue.popleft()
+
+                if current.x == flag_x and current.y == flag_y:
+                    return construct_path(current)
+
+                for dir in Direction.__members__.values():
+                    new_x, new_y = current.x + dir.value[0], current.y + dir.value[1]
+
+                    if is_valid_move(new_x, new_y, rows, cols) and matrix[new_x][new_y] == 0 and not visited[new_x][new_y]:
+                        queue.append(Node(new_x, new_y, current))
+                        visited[new_x][new_y] = True
+
+            return []
+
+        def construct_path(destination):
+            path = []
+
+            while destination.parent is not None:
+                path.append(get_direction(destination.parent, destination))
+                destination = destination.parent
+
+            path.reverse()
+            return path
+
+        def get_direction(from_node, to_node):
+            if from_node.x < to_node.x:
+                return "Bas"
+            elif from_node.x > to_node.x:
+                return "Haut"
+            elif from_node.y < to_node.y:
+                return "Droite"
+            elif from_node.y > to_node.y:
+                return "Gauche"
+            return ""
+
+        def is_valid_move(x, y, rows, cols):
+            return 0 <= x < rows and 0 <= y < cols
+
+        class Node:
+            def __init__(self, x, y, parent):
+                self.x = x
+                self.y = y
+                self.parent = parent
+
+        if __name__ == "__main__":
+            with open("map.json", "r") as fichier:
+            matrix  = json.load(fichier)
+            
+
+            start_x, start_y = 7, 7
+            flag_x, flag_y = 287, 257
+            print("start")
+            path = find_shortest_path(matrix, start_x, start_y, flag_x, flag_y)
+            print("finish")
+            if path:
+                print(f"Chemin trouvé : {path}")
+            else:
+                print("Aucun chemin trouvé.")
+        """
 
     def update(self, player):
         # Choix de la fonction de poursuite en fonction du fantôme

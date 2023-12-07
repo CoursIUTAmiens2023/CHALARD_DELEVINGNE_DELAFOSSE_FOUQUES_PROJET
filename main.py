@@ -76,11 +76,12 @@ while True:
     
     # Rafraîchir l'écran
     fenetre.blit(bg, (0, 0))    
+    game.pac_gommes.draw(fenetre)
     
      # Fonction de poursuite des fantômes
     for fantome in game.fantomes:
         fantome.update(game.player)
-        
+    print(game.player.rect.x, game.player.rect.y)
     # Dessiner Pac-Man
     fenetre.blit(game.player.image, (game.player.rect.x * taille_case, game.player.rect.y * taille_case))
     fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
