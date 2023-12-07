@@ -5,13 +5,15 @@ from collision import Building
 from pacman import Pacman
 from food import PacGomme
 from game import Game
+from map import Map
 
 # Initialisation de Pygame
 pygame.init()
 
 # Définir les couleurs
 noir = (0, 0, 0)
-blanc = (255, 255, 255)
+jaune = (255, 255, 0)
+bleu = (0, 0, 255)
 
 # Définir la taille de la fenêtre
 largeur_map, hauteur_map = 448, 496
@@ -21,6 +23,10 @@ pygame.display.set_caption("Pac-Man Game")
 
 # Charger l'image de fond
 bg = pygame.image.load("Sprite/Colision-Map.png").convert()
+
+# charger la carte
+carte = Map().get_map()
+taille_case = Map().get_size()
 
 # Position initiale
 direction = ''
@@ -37,92 +43,49 @@ while True:
     # Gestion des déplacements
     touches = pygame.key.get_pressed()
 
-    # Sauvegarde des anciennes coordonnées du joueur
-    ancien_x, ancien_y = game.player.rect.x, game.player.rect.y
+    if touches[pygame.K_LEFT] and carte[game.player.rect.y][game.player.rect.x - 1] != 1:
+        game.player.direction = 'left'
+    elif touches[pygame.K_RIGHT] and carte[game.player.rect.y][game.player.rect.x + 1] != 1:
+        game.player.direction = 'right'
+    elif touches[pygame.K_UP] and carte[game.player.rect.y - 1][game.player.rect.x] != 1:
+        game.player.direction = 'up'
+    elif touches[pygame.K_DOWN] and carte[game.player.rect.y + 1][game.player.rect.x] != 1:
+        game.player.direction = 'down'
 
-    if touches[pygame.K_LEFT]:
-        game.player.move('left')
-        direction = 'left'
-    elif touches[pygame.K_RIGHT]:
-        game.player.move('right')
-        direction = 'right'
-    elif touches[pygame.K_UP]:
-        game.player.move('up')
-        direction = 'up'
-    elif touches[pygame.K_DOWN]:
-        game.player.move('down')
-        direction = 'down'
+    # Met à jour la position de Pac-Man en fonction de la direction
+    if game.player.direction == 'left' and carte[game.player.rect.y][game.player.rect.x - 1] != 1:
+        game.player.rect.x -= 1
+    elif game.player.direction == 'right' and carte[game.player.rect.y][game.player.rect.x + 1] != 1:
+        game.player.rect.x += 1
+    elif game.player.direction == 'up' and carte[game.player.rect.y - 1][game.player.rect.x] != 1:
+        game.player.rect.y -= 1
+    elif game.player.direction == 'down' and carte[game.player.rect.y + 1][game.player.rect.x] != 1:
+        game.player.rect.y += 1
 
-    # Vérifie la collision avec les murs en fonction de la direction
-    if direction == 'left' and game.check_collision(game.player, game.wall_left):
-        game.player.rect.x = ancien_x
-    elif direction == 'right' and game.check_collision(game.player, game.wall_right):
-        game.player.rect.x = ancien_x
-    elif direction == 'up' and game.check_collision(game.player, game.wall_up):
-        game.player.rect.y = ancien_y
-    elif direction == 'down' and game.check_collision(game.player, game.wall_down):
-        game.player.rect.y = ancien_y
-
-    # Appelle la fonction pour animer Pac-Man avec la direction
+   
+     # Appelle la fonction pour animer Pac-Man avec la direction
     game.player.update()
 
     # Appelle la fonction pour téléporter Pac-Man en fonction de sa localisation
     game.player.teleportation()
-
-    # Appelle la fonction vérifiant la collision avec les pac-gommes et retourne un booléen et le nombre de points
-    (getPacGomme, points) = game.player.collidePacGomme(game.pac_gommes)
-    if(getPacGomme):
-        # Update le score en ajoutant 50 points
-        game.score.score_add(points)
-        # Réaffiche le score
-        game.score.display(fenetre, 10, 10)
-         # Vérifie si le score atteint 1000 points
-        if game.score.get_score() % 1000 == 0:
-            # Ajoute une vie
-            game.vie.vie_add(1)
-            # Réaffiche le nombre de vies
-            game.vie.display(fenetre, 300, 10)
-
-
-    # Appelle la fonction vérifiant la collision avec les fantômes et retourne un booléen
-    getFantome = game.player.collideGhost(game.fantomes)
-    # Si collision avec un fantôme
-    if(getFantome):
-        # Si le joueur a un super pouvoir
-        if(game.super_pouvoir):
-            # Supprime le fantôme
-            game.fantomes.remove(getFantome)
-            # Update le score en ajoutant 200 points
-            game.score.score_add(200)
-            # Réaffiche le score
-            game.score.display(fenetre, 10, 10)
-        else:
-            # Update le score en ajoutant 50 points
-            game.score.score_add(50)
-            # Réaffiche le score
-            game.score.display(fenetre, 10, 10)
-            # Réinitialise la position du joueur
-            game.player.reaparition()
-            game.vie.vie_remove(1)
-            game.vie.display(fenetre, 300, 10)
-            # Réinitialise la position des fantômes
-            for fantome in game.fantomes:
-                fantome.reaparition()
-
+    # Dessiner la carte
+    for i in range(len(carte)):
+        for j in range(len(carte[i])):
+            if carte[i][j] == 1:
+                pygame.draw.rect(fenetre, bleu, (j * taille_case, i * taille_case, taille_case, taille_case))
+    
     # Rafraîchir l'écran
-    fenetre.blit(bg, (0, 0))  # Blitter l'image de fond
-    fenetre.blit(game.player.image, (game.player.rect.x, game.player.rect.y))
+    fenetre.blit(bg, (0, 0))    
     
      # Fonction de poursuite des fantômes
     for fantome in game.fantomes:
-        fantome.update(game.player, game)
+        fantome.update(game.player)
         
-    # Afficher les pac-gommes
-    game.pac_gommes.draw(fenetre)
-    # Afficher les fantômes
     game.fantomes.draw(fenetre)
-    game.score.display(fenetre, 10, 10)
-    game.vie.display(fenetre, 300, 10)
+    # Dessiner Pac-Man
+    fenetre.blit(game.player.image, (game.player.rect.x * taille_case, game.player.rect.y * taille_case))
+    game.fantomes.draw(fenetre)
+    fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
     pygame.display.flip()
 
     # Limiter la vitesse du jeu

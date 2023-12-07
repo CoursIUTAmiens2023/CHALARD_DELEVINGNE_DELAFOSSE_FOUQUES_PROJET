@@ -10,7 +10,6 @@ blanc = (255, 255, 255)
 class Pacman(pygame.sprite.Sprite):
     def __init__(self, x, y, sprite_sheet):
         super().__init__()
-        self.velocity = 5
         self.sprite_sheet = sprite_sheet
         self.frame_width = 24
         self.frame_height = 24
@@ -18,7 +17,7 @@ class Pacman(pygame.sprite.Sprite):
         self.current_frame = 0
         self.animation_speed = 0.2
         self.last_update = pygame.time.get_ticks()
-        self.direction = 'right'
+        self.direction = ''
 
         # Appliquer la couleur noire comme couleur transparente
         self.sprite_sheet.set_colorkey(noir)
@@ -27,19 +26,7 @@ class Pacman(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.x_debut = x
-        self.y_debut = y
 
-    def move(self, direction):
-        self.direction = direction
-        if direction == 'left':
-            self.rect.x -= self.velocity
-        elif direction == 'right':
-            self.rect.x += self.velocity
-        elif direction == 'up':
-            self.rect.y -= self.velocity
-        elif direction == 'down':
-            self.rect.y += self.velocity
 
     def animer_pacman(self):
         now = pygame.time.get_ticks()
@@ -68,16 +55,3 @@ class Pacman(pygame.sprite.Sprite):
             self.rect.x = -10
         elif(self.rect.x <= -25):
             self.rect.x = 435    
-
-    def reaparition(self):
-        self.rect.x = self.x_debut
-        self.rect.y = self.y_debut
-
-    def collidePacGomme(self, pac_gommes):
-        pac_gommes_collided = pygame.sprite.spritecollide(self, pac_gommes, True)
-        points = points = sum(pac_gomme.get_points() for pac_gomme in pac_gommes_collided)
-        return pac_gommes_collided, points
-    
-    def collideGhost(self, fantomes):
-        fantomes_collided = pygame.sprite.spritecollide(self, fantomes, False)
-        return fantomes_collided

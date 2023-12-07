@@ -5,11 +5,12 @@ from collision import Building
 from ghost import Fantome
 from score import Score
 from vie import Vie
+from map import Map
 
 class Game:
     def __init__(self):
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(220, 370, pacman_spritesheet)
+        self.player = Pacman(27,45, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
@@ -181,19 +182,14 @@ class Game:
         self.pac_gommes.add(PacGomme(342, 470, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(365, 470, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(390, 470, 'Sprite/Point.png', 10, False))
-
-        # Création des super pac-gommes
-        self.super_pac_gommes = pygame.sprite.Group()
-
-        self.super_pouvoir = False
-
+        
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
-        self.blinky = Fantome(50, 50, 'Sprite/Fantome.png')
-        self.pinky = Fantome(150, 150, 'Sprite/Fantome.png')
-        self.inky = Fantome(200, 200, 'Sprite/Fantome.png')
-        self.clyde = Fantome(250, 250, 'Sprite/Fantome.png')
-        
+        self.blinky = Fantome(50, 45, 'Sprite/Fantome.png', Map().get_map())    
+        self.pinky = Fantome(10, 10, 'Sprite/Fantome.png', Map().get_map())
+        self.inky = Fantome(20, 20, 'Sprite/Fantome.png', Map().get_map())
+        self.clyde = Fantome(25, 25, 'Sprite/Fantome.png', Map().get_map())
+
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
         
         # Définition des fantômes principaux
@@ -201,10 +197,3 @@ class Game:
         self.pinky = self.fantomes.sprites()[1]
         self.inky = self.fantomes.sprites()[2]
         self.clyde = self.fantomes.sprites()[3]
-
-        # Création du score
-        self.score = Score(0)
-        self.vie = Vie(3)
-        
-    def check_collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
