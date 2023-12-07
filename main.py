@@ -65,6 +65,7 @@ while True:
    
      # Appelle la fonction pour animer Pac-Man avec la direction
     game.player.update()
+    game.pac_gommes.update()
 
     # Appelle la fonction pour téléporter Pac-Man en fonction de sa localisation
     game.player.teleportation()
@@ -75,8 +76,19 @@ while True:
                 pygame.draw.rect(fenetre, bleu, (j * taille_case, i * taille_case, taille_case, taille_case))
     
     # Rafraîchir l'écran
-    fenetre.blit(bg, (0, 0))    
+    fenetre.blit(bg, (0, 0)) 
+    game.pac_gommes.draw(fenetre)
+    game.score.display(fenetre, 10, 10)
+    game.vie.display(fenetre, 300, 10)   
     
+    pacman_collisions = game.check_collision(game.player, game.pac_gommes)
+
+    # Si une collision est détectée, supprimer la Pac-Gomme et augmenter le score
+    if pacman_collisions:
+        for pac_gomme in pacman_collisions:
+            game.pac_gommes.remove(pac_gomme)
+            game.score.score_add(10)
+
      # Fonction de poursuite des fantômes
     for fantome in game.fantomes:
         fantome.update(game.player)
@@ -86,5 +98,7 @@ while True:
     fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
     pygame.display.flip()
 
+    
+
     # Limiter la vitesse du jeu
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(60)

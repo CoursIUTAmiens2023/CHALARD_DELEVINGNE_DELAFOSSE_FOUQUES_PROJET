@@ -191,9 +191,14 @@ class Game:
         self.clyde = Fantome(25, 25, 'Sprite/Fantome.png', Map().get_map())
 
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
-        
+        # Création du score
+        self.score = Score(0)
+        self.vie = Vie(3)
         # Définition des fantômes principaux
         self.blinky = self.fantomes.sprites()[0]
         self.pinky = self.fantomes.sprites()[1]
         self.inky = self.fantomes.sprites()[2]
         self.clyde = self.fantomes.sprites()[3]
+
+    def check_collision(self, sprite, group):
+        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
