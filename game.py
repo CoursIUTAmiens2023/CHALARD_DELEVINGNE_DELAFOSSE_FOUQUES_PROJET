@@ -10,7 +10,7 @@ from map import Map
 class Game:
     def __init__(self):
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(27,45, pacman_spritesheet)
+        self.player = Pacman(7,7, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
