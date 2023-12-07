@@ -54,13 +54,13 @@ while True:
 
     # Met à jour la position de Pac-Man en fonction de la direction
     if game.player.direction == 'left' and carte[game.player.rect.y][game.player.rect.x - 1] != 1:
-        game.player.rect.x -= 1
+        game.player.rect.x -= 2
     elif game.player.direction == 'right' and carte[game.player.rect.y][game.player.rect.x + 1] != 1:
-        game.player.rect.x += 1
+        game.player.rect.x += 2
     elif game.player.direction == 'up' and carte[game.player.rect.y - 1][game.player.rect.x] != 1:
-        game.player.rect.y -= 1
+        game.player.rect.y -= 2
     elif game.player.direction == 'down' and carte[game.player.rect.y + 1][game.player.rect.x] != 1:
-        game.player.rect.y += 1
+        game.player.rect.y += 2
 
    
      # Appelle la fonction pour animer Pac-Man avec la direction
@@ -81,10 +81,8 @@ while True:
     for fantome in game.fantomes:
         fantome.update(game.player)
         
-    game.fantomes.draw(fenetre)
     # Dessiner Pac-Man
     fenetre.blit(game.player.image, (game.player.rect.x * taille_case, game.player.rect.y * taille_case))
-    game.fantomes.draw(fenetre)
     fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
     pygame.display.flip()
 
