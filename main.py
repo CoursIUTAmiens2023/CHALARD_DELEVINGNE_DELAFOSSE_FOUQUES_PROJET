@@ -87,4 +87,4 @@ while True:
     pygame.display.flip()
 
     # Limiter la vitesse du jeu
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(60)
