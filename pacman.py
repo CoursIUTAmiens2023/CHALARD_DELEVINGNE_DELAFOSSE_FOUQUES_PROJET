@@ -26,6 +26,8 @@ class Pacman(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.x_init = x
+        self.y_init = y
 
 
     def animer_pacman(self):
@@ -55,3 +57,14 @@ class Pacman(pygame.sprite.Sprite):
             self.rect.x = 273
         elif(self.rect.x >= 273 and self.rect.y == 137):
             self.rect.x = 7 
+
+        
+    def resurect(self):
+        self.rect.x = self.x_init
+        self.rect.y = self.y_init
+
+    def collisionPacGomme(self, pacGomme):
+        return pygame.sprite.spritecollide(self, pacGomme, False, pygame.sprite.collide_mask)
+
+    def collisionGhost(self, ghost):
+        return pygame.sprite.spritecollide(self, ghost, False, pygame.sprite.collide_mask) 

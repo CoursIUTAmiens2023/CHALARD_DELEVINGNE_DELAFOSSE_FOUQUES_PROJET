@@ -19,6 +19,7 @@ class Vie:
 
   def display(self, screen, x, y):
     # Afficher l'image de PacMan pour chaque vie
+    screen.fill((0, 0, 0), (x, y, 150, 30))
     for i in range(self.vie):
         screen.blit(self.image_pacman, (x + i * 30, y))
 

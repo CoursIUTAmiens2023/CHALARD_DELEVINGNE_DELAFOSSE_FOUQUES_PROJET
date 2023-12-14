@@ -10,7 +10,7 @@ from map import Map
 class Game:
     def __init__(self):
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(7,7, pacman_spritesheet)
+        self.player = Pacman(117,7, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
@@ -181,6 +181,9 @@ class Game:
         self.pac_gommes.add(PacGomme(342, 470, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(365, 470, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(390, 470, 'Sprite/Point.png', 10, False))
+
+        self.super_pouvoir = False
+        self.super_pouvoir_timer = 0
         
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
@@ -199,5 +202,6 @@ class Game:
         self.inky = self.fantomes.sprites()[2]
         self.clyde = self.fantomes.sprites()[3]
 
-    def check_collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
+        self.fantomesEssai = pygame.sprite.Group()
+        #seulement blinky
+        self.fantomesEssai.add(self.blinky)

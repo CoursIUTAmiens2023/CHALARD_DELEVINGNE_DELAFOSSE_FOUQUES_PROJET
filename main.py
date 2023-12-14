@@ -73,34 +73,55 @@ while True:
     for i in range(len(carte)):
         for j in range(len(carte[i])):
             if carte[i][j] == 1:
-                pygame.draw.rect(fenetre, bleu, (j * taille_case, i * taille_case, taille_case, taille_case))
-    
-    # Rafraîchir l'écran
-<<<<<<< HEAD
-    fenetre.blit(bg, (0, 0)) 
-    game.pac_gommes.draw(fenetre)
+                pygame.draw.rect(fenetre, bleu, (j , i , 1, 1))
+
+
     game.score.display(fenetre, 10, 10)
     game.vie.display(fenetre, 300, 10)   
-=======
-    fenetre.blit(bg, (0, 0))    
     game.pac_gommes.draw(fenetre)
->>>>>>> 662bee86e516bb9743ccb4fc1cdd69a1175b9bd8
     
-    pacman_collisions = game.check_collision(game.player, game.pac_gommes)
+    pacman_collisions = game.player.collisionPacGomme(game.pac_gommes)
+    pacman_collisions_ghost = game.player.collisionGhost(game.fantomes)
 
     # Si une collision est détectée, supprimer la Pac-Gomme et augmenter le score
     if pacman_collisions:
         for pac_gomme in pacman_collisions:
             game.pac_gommes.remove(pac_gomme)
-            game.score.score_add(10)
+            game.score.score_add(pac_gomme.points)
+            if pac_gomme.donne_pouvoir:
+                game.super_pouvoir = True
+                game.super_pouvoir_timer = pygame.time.get_ticks()
+
+    # si ça fait 5sec que le pouvoir est activé, le désactiver
+    if game.super_pouvoir:
+        now = pygame.time.get_ticks()
+        if now - game.super_pouvoir_timer > 5000:
+            game.super_pouvoir = False
+
+    if pacman_collisions_ghost:
+        if game.super_pouvoir:
+            for ghost in pacman_collisions_ghost:
+                ghost.resurect()
+                game.score.score_add(200)
+        else:
+            game.vie.vie_remove(1)
+            game.player.resurect()
+            for fantome in game.fantomes:
+                fantome.resurect()
+            
 
      # Fonction de poursuite des fantômes
     for fantome in game.fantomes:
         fantome.update(game.player)
-    print(game.player.rect.x, game.player.rect.y)
+
+    print(game.player.rect.x , game.player.rect.y)
     # Dessiner Pac-Man
-    fenetre.blit(game.player.image, (game.player.rect.x * taille_case, game.player.rect.y * taille_case))
-    fenetre.blit(game.blinky.image,(game.blinky.rect.x * taille_case, game.blinky.rect.y * taille_case))
+    fenetre.blit(game.player.image,(game.player.rect.x , game.player.rect.y ))
+
+    #dessiner fantome de game.fantomeEssai
+    for fantome in game.fantomes:
+        fenetre.blit(fantome.image,(fantome.rect.x, fantome.rect.y))
+    
     pygame.display.flip()
 
     

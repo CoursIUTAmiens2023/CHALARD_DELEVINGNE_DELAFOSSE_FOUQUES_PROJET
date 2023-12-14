@@ -12,6 +12,8 @@ class Fantome(pygame.sprite.Sprite):
         self.direction = 'left'
         self.changing_direction = False  # Nouvelle variable d'état
         self.carte = carte
+        self.x_init = x
+        self.y_init = y
         
     def poursuite(self, player):
         target_x = player.rect.x
@@ -161,3 +163,8 @@ class Fantome(pygame.sprite.Sprite):
         # Choisir une nouvelle direction si le fantôme est actuellement bloqué dans une direction interdite
         if self.direction in forbidden_directions:
             self.direction = new_direction
+            
+
+    def resurect(self):
+        self.rect.x = self.x_init
+        self.rect.y = self.y_init
