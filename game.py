@@ -9,8 +9,10 @@ from map import Map
 
 class Game:
     def __init__(self):
+        self.game_state = "start_menu"
+
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(117,7, pacman_spritesheet)
+        self.player = Pacman(141,227, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
@@ -187,10 +189,10 @@ class Game:
         
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
-        self.blinky = Fantome(50, 45, 'Sprite/Fantome.png', Map().get_map())    
-        self.pinky = Fantome(10, 10, 'Sprite/Fantome.png', Map().get_map())
-        self.inky = Fantome(20, 20, 'Sprite/Fantome.png', Map().get_map())
-        self.clyde = Fantome(25, 25, 'Sprite/Fantome.png', Map().get_map())
+        self.blinky = Fantome(43, 7, 'Sprite/Fantome.png', Map().get_map())    
+        self.pinky = Fantome(57, 137, 'Sprite/Fantome.png', Map().get_map())
+        self.inky = Fantome(41, 77, 'Sprite/Fantome.png', Map().get_map())
+        self.clyde = Fantome(7, 77, 'Sprite/Fantome.png', Map().get_map())
 
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
         # Création du score
