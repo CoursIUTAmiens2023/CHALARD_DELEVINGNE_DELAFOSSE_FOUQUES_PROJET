@@ -13,3 +13,6 @@ class PacGomme(pygame.sprite.Sprite):
 
     def get_points(self):
         return self.points
+    
+    def affichage(self,fenetre,taille_case):
+        fenetre.blit(self.image,(self.rect.x * taille_case, self.rect.y * taille_case))

@@ -93,12 +93,13 @@ while True:
         for i in range(len(carte)):
             for j in range(len(carte[i])):
                 if carte[i][j] == 1:
-                    pygame.draw.rect(fenetre, bleu, (j , i , 1, 1))
+                    pygame.draw.rect(fenetre, bleu, (j * taille_case, i * taille_case, taille_case, taille_case))
 
-
+        fenetre.blit(bg, (0, 0))
         game.score.display(fenetre, 10, 10)
         game.vie.display(fenetre, 300, 10)   
-        game.pac_gommes.draw(fenetre)
+        for pac_gomme in game.pac_gommes:
+            pac_gomme.affichage(fenetre,taille_case)
         
         pacman_collisions = game.player.collisionPacGomme(game.pac_gommes)
         pacman_collisions_ghost = game.player.collisionGhost(game.fantomes)
@@ -135,18 +136,13 @@ while True:
 
         # Fonction de poursuite des fantômes
         for fantome in game.fantomes:
-            fantome.update(game.player)
+            fantome.update(game.player,fenetre,taille_case,game)
 
-        print(game.player.rect.x , game.player.rect.y)
         # Dessiner Pac-Man
-        fenetre.blit(game.player.image,(game.player.rect.x , game.player.rect.y ))
-
-        #dessiner fantome de game.fantomeEssai
-        for fantome in game.fantomes:
-            fenetre.blit(fantome.image,(fantome.rect.x, fantome.rect.y))
+        fenetre.blit(game.player.image,(game.player.rect.x * taille_case, game.player.rect.y * taille_case))
         
         pygame.display.flip()
 
 
         # Limiter la vitesse du jeu
-        pygame.time.Clock().tick(60)
+        pygame.time.Clock().tick(600)

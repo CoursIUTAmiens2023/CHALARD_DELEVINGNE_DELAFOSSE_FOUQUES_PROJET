@@ -183,12 +183,15 @@ class Game:
         self.pac_gommes.add(PacGomme(243, 292, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(261, 292, 'Sprite/Point.png', 10, False))
         
+        
+        self.super_pouvoir = False
+        
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
-        self.blinky = Fantome(43, 7, 'Sprite/Fantome.png', Map().get_map())    
-        self.pinky = Fantome(57, 137, 'Sprite/Fantome.png', Map().get_map())
-        self.inky = Fantome(41, 77, 'Sprite/Fantome.png', Map().get_map())
-        self.clyde = Fantome(7, 77, 'Sprite/Fantome.png', Map().get_map())
+        self.blinky = Fantome(43, 7, 'Sprite/RougeG.png', Map().get_map())    
+        self.pinky = Fantome(57, 137, 'Sprite/RoseG.png', Map().get_map())
+        self.inky = Fantome(41, 77, 'Sprite/BleuG.png', Map().get_map())
+        self.clyde = Fantome(7, 77, 'Sprite/OrangeG.png', Map().get_map())
 
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
         # Création du score
