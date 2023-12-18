@@ -9,8 +9,10 @@ from map import Map
 
 class Game:
     def __init__(self):
+        self.game_state = "start_menu"
+
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(7,7, pacman_spritesheet)
+        self.player = Pacman(141,227, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
@@ -24,6 +26,7 @@ class Game:
         self.wall_right.add(Building('Sprite/Colision-Map-droite.png', 0, 0))
 
         # Création des pac-gommes 
+        self.pac_gommes = pygame.sprite.Group()
         self.pac_gommes = pygame.sprite.Group()
         self.pac_gommes.add(PacGomme(12, 12, 'Sprite/Pac-Gomme.png', 50, True))
         self.pac_gommes.add(PacGomme(257, 12, 'Sprite/Pac-Gomme.png', 50, True))
@@ -180,14 +183,12 @@ class Game:
         self.pac_gommes.add(PacGomme(243, 292, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(261, 292, 'Sprite/Point.png', 10, False))
         
-
-        
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
-        self.blinky = Fantome(50, 45, 'Sprite/Fantome.png', Map().get_map())    
-        self.pinky = Fantome(10, 10, 'Sprite/Fantome.png', Map().get_map())
-        self.inky = Fantome(20, 20, 'Sprite/Fantome.png', Map().get_map())
-        self.clyde = Fantome(25, 25, 'Sprite/Fantome.png', Map().get_map())
+        self.blinky = Fantome(43, 7, 'Sprite/Fantome.png', Map().get_map())    
+        self.pinky = Fantome(57, 137, 'Sprite/Fantome.png', Map().get_map())
+        self.inky = Fantome(41, 77, 'Sprite/Fantome.png', Map().get_map())
+        self.clyde = Fantome(7, 77, 'Sprite/Fantome.png', Map().get_map())
 
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
         # Création du score
@@ -199,5 +200,6 @@ class Game:
         self.inky = self.fantomes.sprites()[2]
         self.clyde = self.fantomes.sprites()[3]
 
-    def check_collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
+        self.fantomesEssai = pygame.sprite.Group()
+        #seulement blinky
+        self.fantomesEssai.add(self.blinky)
