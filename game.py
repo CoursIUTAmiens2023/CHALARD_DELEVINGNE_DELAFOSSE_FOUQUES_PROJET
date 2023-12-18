@@ -69,7 +69,6 @@ class Game:
         self.pac_gommes.add(PacGomme(213, 15, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(227, 15, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(243, 15, 'Sprite/Point.png', 10, False))
-        self.pac_gommes.add(PacGomme(261, 15, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(152, 34, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(15, 84, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(34, 84, 'Sprite/Point.png', 10, False))
@@ -180,9 +179,7 @@ class Game:
         self.pac_gommes.add(PacGomme(199, 292, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(213, 292, 'Sprite/Point.png', 10, False))
         self.pac_gommes.add(PacGomme(227, 292, 'Sprite/Point.png', 10, False))
-        self.pac_gommes.add(PacGomme(243, 292, 'Sprite/Point.png', 10, False))
-        self.pac_gommes.add(PacGomme(261, 292, 'Sprite/Point.png', 10, False))
-        
+        self.pac_gommes.add(PacGomme(243, 292, 'Sprite/Point.png', 10, False))        
         
         self.super_pouvoir = False
         
