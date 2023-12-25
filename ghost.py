@@ -18,23 +18,23 @@ class Fantome(pygame.sprite.Sprite):
         self.y_init = y
         
     def poursuite(self, player):
-            matrix=Map().get_map()
+        matrix = Map().get_map()
 
-    
-            start_x, start_y = self.rect.y, self.rect.x
-            flag_x, flag_y = player.rect.y, player.rect.x
+        start_x, start_y = self.rect.y, self.rect.x
+        flag_x, flag_y = player.rect.y, player.rect.x
 
-            path_finder = ShortestPathFinder()
-            path = path_finder.find_shortest_path(matrix, start_x, start_y, flag_x, flag_y)
-            if len(path) != 0:
-                if path[0] == 'Gauche' :
-                    self.rect.x -= 1
-                elif path[0] == 'Droite' :
-                    self.rect.x += 1
-                elif path[0] == 'Haut' :
-                    self.rect.y -= 1
-                elif path[0] == 'Bas' :
-                    self.rect.y += 1
+        path_finder = ShortestPathFinder()
+        path = path_finder.find_shortest_path(matrix, start_x, start_y, flag_x, flag_y)
+        
+        directions = {'Gauche': (-1, 0), 'Droite': (1, 0), 'Haut': (0, -1), 'Bas': (0, 1)}
+
+        if path:
+            next_direction = path[0]
+            move_x, move_y = directions.get(next_direction, (0, 0))
+
+            self.rect.x += move_x
+            self.rect.y += move_y
+   
     def poursuiteclyde(self, player):
             matrix=Map().get_map()
         
@@ -59,11 +59,22 @@ class Fantome(pygame.sprite.Sprite):
                     self.direction = random.choice(['Droite', 'Haut'])
                 else :
                     self.direction = random.choice(['Droite', 'Haut', 'Bas'])
-                self.direction = random.choice(['Gauche', 'Haut', 'Bas'])
             elif self.direction == 'Haut' and matrix[self.rect.y - 1][self.rect.x] == 1:
-                self.direction = random.choice(['Gauche', 'Droite', 'Bas'])
+                if matrix[self.rect.y][self.rect.x - 1] == 1:
+                    self.direction = random.choice(['Droite', 'Bas'])
+                elif matrix[self.rect.y][self.rect.x + 1] == 1:
+                    self.direction = random.choice(['Gauche', 'Bas'])
+                else:
+                    self.direction = random.choice(['Gauche', 'Droite', 'Bas'])
+
             elif self.direction == 'Bas' and matrix[self.rect.y + 1][self.rect.x] == 1:
-                self.direction = random.choice(['Gauche', 'Haut', 'Droite'])
+                if matrix[self.rect.y][self.rect.x - 1] == 1:
+                    self.direction = random.choice(['Droite', 'Haut'])
+                elif matrix[self.rect.y][self.rect.x + 1] == 1:
+                    self.direction = random.choice(['Gauche', 'Haut'])
+                else:
+                    self.direction = random.choice(['Gauche', 'Droite', 'Haut'])
+            
             if len(path) <= 9:
                 path = path_finder.find_shortest_path(matrix, start_x, start_y, flag_x, flag_y)
             if self.direction == 'Gauche' :
@@ -75,18 +86,19 @@ class Fantome(pygame.sprite.Sprite):
             elif self.direction == 'Bas' :
                 self.rect.y += 1
 
-    def update(self, player, fenetre, taille_case,game):
+    def update(self, player, fenetre, taille_case, game):
         # Gestion poursuites selon les fantomes
-        if self == game.blinky:    
+        if self == game.blinky:
             self.poursuite(player)
         if self == game.pinky:
             self.poursuite(player)
         if self == game.inky:
             self.poursuite(player)
         if self == game.clyde:
-            self.poursuiteclyde(player) 
+            self.poursuiteclyde(player)
             
-        fenetre.blit(self.image,(self.rect.x *taille_case, self.rect.y *taille_case))
+        fenetre.blit(self.image, (self.rect.x * taille_case, self.rect.y * taille_case))
+        
 
 
     def resurect(self):
