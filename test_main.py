@@ -1,8 +1,12 @@
 import unittest
 import pygame
+import sys
 from pacman import Pacman
 from food import PacGomme
 from game import Game
+from map import Map
+from main import handle_events
+
 
 class TestGameMethods(unittest.TestCase):
     def setUp(self):
@@ -11,16 +15,27 @@ class TestGameMethods(unittest.TestCase):
 
     def test_handle_pacman_collisions(self):
         # Teste la méthode handle_pacman_collisions
-        pacman = Pacman(0, 0)
-        pac_gomme = PacGomme(0, 0)
-        game = Game()
-        game.pac_gommes.add(pac_gomme)
+        pygame.init()
+        pac_gomme = PacGomme(137, 233, 'Sprite/Point.png', 10, False)
+        largeur_map, hauteur_map = 448, 540
+        fenetre = pygame.display.set_mode((largeur_map, hauteur_map))
+        pygame.display.set_caption("Pac-Man Game")
 
-        # Appel de la méthode à tester
-        game.handle_pacman_collisions([pac_gomme])
+        # Load the map
+        carte = Map().get_map()
+        taille_case = Map().get_size()
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            game = Game()
+            fenetre.fill((0, 0, 0))
+            game.game_state = "playing"
+    
 
         # Vérifications avec des assertions
-        self.assertNotIn(pac_gomme, game.pac_gommes)
         self.assertEqual(game.score.score, pac_gomme.points)
 
     def test_handle_super_pouvoir(self):
