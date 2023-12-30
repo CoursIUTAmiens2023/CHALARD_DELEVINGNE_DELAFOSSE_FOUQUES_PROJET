@@ -132,6 +132,10 @@ def handle_pacman_collisions(pacman_collisions):
                 fantome.scared()
             game.super_pouvoir = True
             game.super_pouvoir_timer = pygame.time.get_ticks()
+    
+    # si plus de pac-gommes, on met ecran de fin
+    if len(game.pac_gommes) == 0:
+        game.game_state = "win"
 
 # Handle super pouvoir function
 def handle_super_pouvoir():
@@ -174,6 +178,14 @@ while True:
 
     if game.game_state == "start_menu":
         handle_start_menu()
+    elif game.game_state == "win":
+        menu.draw_win(fenetre, game.score.score)
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if menu.play_button_rect.collidepoint(event.pos):
+                    game = Game()
+                    menu = Menu()
+                    menu.start_game(fenetre, game)
     elif game.game_state == "game_over":
         menu.draw_game_over(fenetre)
         for event in pygame.event.get():

@@ -37,6 +37,26 @@ class Menu:
         pygame.display.flip()
 
 
+    def draw_win(self, screen, score):
+        #background blanc
+        screen.fill((255, 255, 255))
+        # afficher l'image en haut centrer puis mettre un bouton jouer en dessous
+        screen.blit(self.image, self.image_rect)
+
+        # afficher le score
+        font = pygame.font.Font(None, 30)
+        text = font.render("Score : " + str(score), 1, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.x = 170
+        text_rect.y = 500
+        screen.blit(text, text_rect)
+
+        print("score : " + str(score))
+
+        screen.blit(self.play_button, self.play_button_rect)
+        pygame.display.flip()
+
+
     # si le bouton est cliquer alors on lance le jeu
     def start_game(self, screen, game):
         if game.game_state == "start_menu":
