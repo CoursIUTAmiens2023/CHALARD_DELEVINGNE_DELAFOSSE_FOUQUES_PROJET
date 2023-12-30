@@ -128,13 +128,13 @@ def handle_pacman_collisions(pacman_collisions):
         game.pac_gommes.remove(pac_gomme)
         game.score.score_add(pac_gomme.points)
         if pac_gomme.donne_pouvoir:
+            for fantome in game.fantomes:
+                fantome.scared()
             game.super_pouvoir = True
             game.super_pouvoir_timer = pygame.time.get_ticks()
 
 # Handle super pouvoir function
 def handle_super_pouvoir():
-    for fantome in game.fantomes:
-        fantome.scared()
     now = pygame.time.get_ticks()
     if now - game.super_pouvoir_timer > 5000:
         game.super_pouvoir = False
