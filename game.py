@@ -12,7 +12,7 @@ class Game:
         self.game_state = "start_menu"
 
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
-        self.player = Pacman(141,227, pacman_spritesheet)
+        self.player = Pacman(135,227, pacman_spritesheet)
 
         # Création des colisions 
         self.wall_left = pygame.sprite.Group()
