@@ -8,6 +8,7 @@ class Fantome(pygame.sprite.Sprite):
     def __init__(self, x, y, image, carte):
         super().__init__()
         self.image = pygame.image.load(image)
+        self.imageStart = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -104,3 +105,10 @@ class Fantome(pygame.sprite.Sprite):
     def resurect(self):
         self.rect.x = self.x_init
         self.rect.y = self.y_init
+
+
+    def scared(self):
+        self.image = pygame.image.load("Sprite/Fantometouche.png")
+
+    def normal(self):
+        self.image = self.imageStart
