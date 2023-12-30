@@ -133,9 +133,13 @@ def handle_pacman_collisions(pacman_collisions):
 
 # Handle super pouvoir function
 def handle_super_pouvoir():
+    for fantome in game.fantomes:
+        fantome.scared()
     now = pygame.time.get_ticks()
     if now - game.super_pouvoir_timer > 5000:
         game.super_pouvoir = False
+        for fantome in game.fantomes:
+            fantome.normal()
 
 # Handle pacman ghost collisions function
 def handle_pacman_ghost_collisions(pacman_collisions_ghost):
