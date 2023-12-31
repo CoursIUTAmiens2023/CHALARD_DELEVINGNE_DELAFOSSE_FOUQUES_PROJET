@@ -50,7 +50,9 @@ def handle_start_menu():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if menu.play_button_rect.collidepoint(event.pos):
                 menu.start_game(fenetre, game)
-
+        elif event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
 def handle_gameplay():
     # Player movement
@@ -179,14 +181,6 @@ while True:
 
     if game.game_state == "start_menu":
         handle_start_menu()
-    elif game.game_state == "win":
-        menu.draw_win(fenetre, game.score.score)
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if menu.play_button_rect.collidepoint(event.pos):
-                    game = Game()
-                    menu = Menu()
-                    menu.start_game(fenetre, game)
     elif game.game_state == "game_over":
         menu.draw_game_over(fenetre, game.score.score)
         for event in pygame.event.get():
@@ -195,9 +189,11 @@ while True:
                     game = Game()
                     menu = Menu()
                     menu.start_game(fenetre, game)
+            elif event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()    
     else:
         handle_gameplay()
-    print(game.player.rect.x, game.player.rect.y)
 
 # Quit the game
 pygame.quit()
