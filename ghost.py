@@ -55,11 +55,11 @@ class Fantome(pygame.sprite.Sprite):
                 
             elif self.direction == 'Droite' and matrix[self.rect.y][self.rect.x + 1] == 1:
                 if matrix[self.rect.y - 1][self.rect.x] == 1:
-                    self.direction = random.choice(['Droite', 'Bas'])
+                    self.direction = random.choice(['Gauche', 'Bas'])
                 elif matrix[self.rect.y + 1][self.rect.x] == 1:
-                    self.direction = random.choice(['Droite', 'Haut'])
+                    self.direction = random.choice(['Gauche', 'Haut'])
                 else :
-                    self.direction = random.choice(['Droite', 'Haut', 'Bas'])
+                    self.direction = random.choice(['Gauche', 'Haut', 'Bas'])
             elif self.direction == 'Haut' and matrix[self.rect.y - 1][self.rect.x] == 1:
                 if matrix[self.rect.y][self.rect.x - 1] == 1:
                     self.direction = random.choice(['Droite', 'Bas'])

@@ -28,12 +28,20 @@ class Menu:
         pygame.display.flip()
 
 
-    def draw_game_over(self, screen):
+    def draw_game_over(self, screen,score):
         #background blanc
         screen.fill((255, 255, 255))
         # afficher l'image en haut centrer puis mettre un bouton jouer en dessous
         screen.blit(self.image_game_over, self.image_game_over_rect)
         screen.blit(self.play_button, self.play_button_rect)
+        # afficher le score
+        font = pygame.font.Font(None, 30)
+        text = font.render("Score : " + str(score), 1, (0, 0, 0))
+        text_rect = text.get_rect()
+        text_rect.x = 170
+        text_rect.y = 500
+        screen.blit(text, text_rect)
+
         pygame.display.flip()
 
 
@@ -50,8 +58,6 @@ class Menu:
         text_rect.x = 170
         text_rect.y = 500
         screen.blit(text, text_rect)
-
-        print("score : " + str(score))
 
         screen.blit(self.play_button, self.play_button_rect)
         pygame.display.flip()

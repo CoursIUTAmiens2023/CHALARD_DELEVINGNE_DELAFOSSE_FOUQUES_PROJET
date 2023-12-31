@@ -41,8 +41,8 @@ class TestGameMethods(unittest.TestCase):
     def test_handle_pacman_ghost_collisions(self):
         self.game.super_pouvoir = True
 
-        self.game.player.rect.x = 57
-        self.game.player.rect.y = 137
+        self.game.player.rect.x = 125
+        self.game.player.rect.y = 107
 
         # Appelez la fonction de vérification de collision
         collisions = self.game.player.collisionPacGomme(self.game.fantomes)

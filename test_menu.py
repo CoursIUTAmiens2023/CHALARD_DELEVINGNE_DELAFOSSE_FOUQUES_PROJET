@@ -23,7 +23,7 @@ class TestMenu(unittest.TestCase):
     def test_draw_game_over(self):
         # Créer une surface pygame pour tester le rendu
         test_screen = pygame.Surface((800, 600))
-        self.menu.draw_game_over(test_screen)
+        self.menu.draw_game_over(test_screen,0)
 
         # Ajouter des assertions pour vérifier que les éléments sont correctement rendus sur l'écran
 

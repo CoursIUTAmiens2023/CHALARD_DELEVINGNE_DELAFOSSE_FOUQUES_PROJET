@@ -135,7 +135,7 @@ def handle_pacman_collisions(pacman_collisions):
     
     # si plus de pac-gommes, on met ecran de fin
     if len(game.pac_gommes) == 0:
-        game.game_state = "win"
+        game.init_game(game.score.score)
 
 # Handle super pouvoir function
 def handle_super_pouvoir():
@@ -173,8 +173,9 @@ def draw_pacman():
 # Main game loop
 while True:
 
-
     handle_events()
+
+    
 
     if game.game_state == "start_menu":
         handle_start_menu()
@@ -187,7 +188,7 @@ while True:
                     menu = Menu()
                     menu.start_game(fenetre, game)
     elif game.game_state == "game_over":
-        menu.draw_game_over(fenetre)
+        menu.draw_game_over(fenetre, game.score.score)
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if menu.play_button_rect.collidepoint(event.pos):
@@ -196,8 +197,8 @@ while True:
                     menu.start_game(fenetre, game)
     else:
         handle_gameplay()
+    print(game.player.rect.x, game.player.rect.y)
 
-    
 # Quit the game
 pygame.quit()
 sys.exit()

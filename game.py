@@ -10,6 +10,10 @@ from map import Map
 class Game:
     def __init__(self):
         self.game_state = "start_menu"
+        self.init_game(0)
+        
+        
+    def init_game(self,score):
 
         pacman_spritesheet = pygame.image.load("Sprite/Sprite.png").convert()
         self.player = Pacman(135,227, pacman_spritesheet)
@@ -26,7 +30,6 @@ class Game:
         self.wall_right.add(Building('Sprite/Colision-Map-droite.png', 0, 0))
 
         # Création des pac-gommes 
-        self.pac_gommes = pygame.sprite.Group()
         self.pac_gommes = pygame.sprite.Group()
         self.pac_gommes.add(PacGomme(12, 12, 'Sprite/Pac-Gomme.png', 50, True))
         self.pac_gommes.add(PacGomme(257, 12, 'Sprite/Pac-Gomme.png', 50, True))
@@ -185,14 +188,14 @@ class Game:
         
         # Création des fantômes
         self.fantomes = pygame.sprite.Group()
-        self.blinky = Fantome(43, 7, 'Sprite/RougeG.png', Map().get_map())    
-        self.pinky = Fantome(57, 137, 'Sprite/RoseG.png', Map().get_map())
-        self.inky = Fantome(41, 77, 'Sprite/BleuG.png', Map().get_map())
-        self.clyde = Fantome(7, 77, 'Sprite/OrangeG.png', Map().get_map())
+        self.blinky = Fantome(125, 107, 'Sprite/RougeG.png', Map().get_map())    
+        self.pinky = Fantome(7, 287, 'Sprite/RoseG.png', Map().get_map())
+        self.inky = Fantome(257, 287, 'Sprite/BleuG.png', Map().get_map())
+        self.clyde = Fantome(127, 47, 'Sprite/OrangeG.png', Map().get_map())
 
         self.fantomes.add(self.blinky,self.pinky, self.inky, self.clyde)
         # Création du score
-        self.score = Score(0)
+        self.score = Score(score)
         self.vie = Vie(3)
         # Définition des fantômes principaux
         self.blinky = self.fantomes.sprites()[0]

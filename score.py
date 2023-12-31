@@ -11,8 +11,6 @@ class Score:
     self.score += x
 
   def display(self, screen, x, y):
-    #self.image = pygame.transform.scale(self.image, (x, y))
-    #screen.blit(self.image, (x, y))
     font = pygame.font.Font(None, 36)
     text = font.render("Score: " + str(self.score), 1, (255, 255, 255))
     screen.blit(text, (x, y))
