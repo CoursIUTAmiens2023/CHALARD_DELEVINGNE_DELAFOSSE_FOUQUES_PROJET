@@ -1,19 +1,37 @@
 # CHALARD_DELEVINGNE_DELAFOSSE_FOUQUES_PROJET
 
-- PROJET : Pacman
+# Projet Pacman en Python
 
-  - Langage : Python
-    - Nicolas à déjà travaillé sur Pygames
-    - tout le monde connait Python
+## Équipe de Développement
 
-  - Fonctionnalité :
-    - Pacman doit parcourir toute la carte pour rammaser des fruits (petites boules sur la carte) pour scorer un maximum (objectif de toutes les ramasser)
-    - Pacman doit éviter de se faire toucher par l'un des 4 fantômes sinon il perd une vie (3 vies)
-    - Pacman peux aller manger les fantômes lorsqu'il vient de manger un gros fruit pendant une courte période
-    - Lorsque Pacman va sur les côtés (gauche et droite) au milieu des murs, il se téléporte de l'autre côté
+- **Nathan Chalard**
+- **Martin Fouques**
+- **Corentin Delafosse**
+- **Nicolas Delevingne**
 
-  - Condition de victoire :
-    - Avoir mangé tous les fruits
+## Langage
+- Python (Nicolas a déjà travaillé sur Pygames, et tout le monde connaît Python)
 
-  - Condition de défaite :
-    - Avoir perdu toutes ses vies
+## Fonctionnalités
+- Pacman doit parcourir toute la carte pour ramasser des fruits (petites boules) et maximiser son score.
+- Éviter les 4 fantômes pour ne pas perdre de vie (3 vies au total).
+- Manger les fantômes après avoir consommé un gros fruit pendant une courte période.
+- Téléportation de Pacman vers l'autre côté lorsqu'il va sur les côtés (gauche et droite) au milieu des murs.
+
+## Condition de défaite
+- Avoir perdu toutes ses vies.
+
+## But
+- Faire le meilleur score.
+
+## Comment Jouer
+1. Assurez-vous d'avoir Python installé sur votre machine.
+2. Installer Pygame pour exécuter le jeu.
+    ```bash
+    pip install pygame
+    ```
+3. Lancez le jeu en exécutant le fichier main.py.
+
+## Plan de Test
+
+Consultez notre plan de test détaillé sur [Google Sheets](https://docs.google.com/spreadsheets/d/1wLPci8RwWmbvj5gUD1s7Khx53rGiezM_HUO5nUDdUF0/edit#gid=1943840735) 
